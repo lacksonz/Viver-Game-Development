@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Viver VR Studio</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Splash screen -->
+  <!-- Splash Screen -->
   <div id="splash-screen">
     <img src="New Project (34).png" alt="Logo" id="splash-logo">
   </div>
 
-  <!-- Main container -->
-  <div id="main-screen">
+  <!-- Main Content -->
+  <div id="main-screen" style="display:none;">
 
     <!-- Navbar -->
     <header class="navbar">
@@ -29,13 +29,16 @@
       </nav>
     </header>
 
-    <!-- Canvas for particles -->
+    <!-- Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Hero / Home Section -->
-    <section id="home" class="section hero">
-      <h1>Welcome to Viver VR</h1>
-      <p>Immersive VR experiences built with passion and precision.</p>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="hero-content">
+        <h1>Welcome to Viver VR</h1>
+        <p>Immersive VR experiences built with passion and precision.</p>
+        <button class="hero-btn">Explore Our Games</button>
+      </div>
     </section>
 
     <!-- Games Section -->
