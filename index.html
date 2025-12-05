@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viver Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viver Game</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Splash Screen -->
-    <div id="splash-screen">
-        <img src="New Project (34).png" alt="Game Logo" class="logo">
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <img src="mylogo.png" alt="Game Logo" class="logo">
+  </div>
+
+  <!-- Main Screen -->
+  <div id="main-screen">
+    <!-- Animated background -->
+    <div class="animated-bg"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+      <img src="mylogo.png" alt="Logo" class="nav-logo">
+      <ul class="nav-tabs">
+        <li><a href="#">Main</a></li>
+        <li><a href="#">Our VR Games</a></li>
+      </ul>
+    </nav>
+
+    <!-- Content -->
+    <div class="content">
+      <h1>Welcome to Viver Game!</h1>
+      <p>Explore our VR games and experiences.</p>
     </div>
+  </div>
 
-    <!-- Main Screen -->
-    <div id="main-screen">
-        <!-- Navbar -->
-        <nav class="navbar">
-            <img src="mylogo.png" alt="Logo" class="nav-logo">
-            <ul class="nav-tabs">
-                <li><a href="#">Main</a></li>
-                <li><a href="#">Our VR Games</a></li>
-            </ul>
-        </nav>
-
-        <!-- Content -->
-        <div class="content">
-            <h1>Welcome to Viver Game!</h1>
-            <p>Explore our VR games and experiences.</p>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
