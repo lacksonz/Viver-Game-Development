@@ -1,22 +1,21 @@
 // Splash screen fade
 window.addEventListener('load', () => {
-  const splashDuration = 2500;
   const splash = document.getElementById('splash-screen');
   const main = document.getElementById('main-screen');
 
   setTimeout(() => {
     splash.style.transition = 'opacity 1s';
     splash.style.opacity = 0;
+
     setTimeout(() => {
       splash.style.display = 'none';
-      main.style.display = 'flex';
-      main.style.flexDirection = 'column';
-      startBackground(); // Start canvas animation
+      main.style.display = 'block';
+      startBackground();
     }, 1000);
-  }, splashDuration);
+  }, 2500);
 });
 
-// Background animation with particles
+// Background animation
 function startBackground() {
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
@@ -24,47 +23,50 @@ function startBackground() {
   let height = canvas.height = window.innerHeight;
 
   const particles = [];
-  const particleCount = 100;
+  const count = 120;
 
-  // Particle constructor
-  function Particle() {
-    this.x = Math.random() * width;
-    this.y = Math.random() * height;
-    this.size = Math.random() * 3 + 1;
-    this.speedX = (Math.random() - 0.5) * 0.5;
-    this.speedY = (Math.random() - 0.5) * 0.5;
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = (Math.random() - 0.5) * 0.3;
+      this.opacity = Math.random() * 0.5 + 0.2;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
+      ctx.fill();
+    }
   }
 
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
-  }
+  for (let i = 0; i < count; i++) particles.push(new Particle());
 
   function animate() {
-    ctx.clearRect(0, 0, width, height);
+    ctx.clearRect(0,0,width,height);
 
-    // Gradient overlay
-    const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, 'rgba(10,47,107,0.3)');
-    gradient.addColorStop(1, 'rgba(20,81,192,0.3)');
+    // subtle dark gradient overlay
+    const gradient = ctx.createLinearGradient(0,0,width,height);
+    gradient.addColorStop(0,'#111');
+    gradient.addColorStop(1,'#222');
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillRect(0,0,width,height);
 
-    // Draw particles
-    for (let i = 0; i < particleCount; i++) {
-      const p = particles[i];
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255,255,255,0.7)';
-      ctx.fill();
-
-      p.x += p.speedX;
-      p.y += p.speedY;
-
-      if (p.x < 0) p.x = width;
-      if (p.x > width) p.x = 0;
-      if (p.y < 0) p.y = height;
-      if (p.y > height) p.y = 0;
-    }
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
 
     requestAnimationFrame(animate);
   }
