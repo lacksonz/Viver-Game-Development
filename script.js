@@ -15,7 +15,7 @@ window.addEventListener('load', () => {
   }, 2500);
 });
 
-// Background animation
+// Dark grey-black particle background
 function startBackground() {
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
@@ -23,7 +23,7 @@ function startBackground() {
   let height = canvas.height = window.innerHeight;
 
   const particles = [];
-  const count = 120;
+  const count = 100;
 
   class Particle {
     constructor() {
@@ -35,39 +35,28 @@ function startBackground() {
       this.size = Math.random() * 2 + 1;
       this.speedX = (Math.random() - 0.5) * 0.3;
       this.speedY = (Math.random() - 0.5) * 0.3;
-      this.opacity = Math.random() * 0.5 + 0.2;
+      this.opacity = Math.random() * 0.3 + 0.1;
     }
     update() {
       this.x += this.speedX;
       this.y += this.speedY;
-
       if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
     }
     draw() {
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
       ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
       ctx.fill();
     }
   }
 
-  for (let i = 0; i < count; i++) particles.push(new Particle());
+  for (let i=0;i<count;i++) particles.push(new Particle());
 
   function animate() {
-    ctx.clearRect(0,0,width,height);
-
-    // subtle dark gradient overlay
-    const gradient = ctx.createLinearGradient(0,0,width,height);
-    gradient.addColorStop(0,'#111');
-    gradient.addColorStop(1,'#222');
-    ctx.fillStyle = gradient;
+    ctx.fillStyle = '#111'; // dark grey-black background
     ctx.fillRect(0,0,width,height);
 
-    particles.forEach(p => {
-      p.update();
-      p.draw();
-    });
-
+    particles.forEach(p => { p.update(); p.draw(); });
     requestAnimationFrame(animate);
   }
 
