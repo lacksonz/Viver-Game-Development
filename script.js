@@ -15,6 +15,21 @@ window.addEventListener('load', () => {
   }, 2500);
 });
 
+// Smooth scroll for navbar links
+document.querySelectorAll('.nav-tabs a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){
+      window.scrollTo({
+        top: target.offsetTop - 70,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+
 // Dark grey-black particle background
 function startBackground() {
   const canvas = document.getElementById('bg-canvas');
