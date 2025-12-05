@@ -19,7 +19,7 @@ document.querySelectorAll('.navbar-nav a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
-    if (target) {
+    if(target){
       window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
     }
   });
@@ -34,9 +34,9 @@ function startParticles() {
   let h = canvas.height = window.innerHeight;
 
   const particles = [];
-  const num = 100;
+  const num = 120;
 
-  class P {
+  class Particle {
     constructor() { this.init(); }
     init() {
       this.x = Math.random() * w;
@@ -44,7 +44,7 @@ function startParticles() {
       this.r = Math.random() * 2 + 1;
       this.dx = (Math.random() - 0.5) * 0.3;
       this.dy = (Math.random() - 0.5) * 0.3;
-      this.o = Math.random() * 0.3 + 0.1;
+      this.o = Math.random() * 0.3 + 0.05;
     }
     update() {
       this.x += this.dx;
@@ -53,21 +53,21 @@ function startParticles() {
     }
     draw() {
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
       ctx.fillStyle = `rgba(255,255,255,${this.o})`;
       ctx.fill();
     }
   }
 
-  for (let i=0; i < num; i++) particles.push(new P());
+  for(let i=0;i<num;i++) particles.push(new Particle());
 
-  function anim(){
+  function animate() {
     ctx.fillStyle = '#0e0e0f';
     ctx.fillRect(0,0,w,h);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(anim);
+    particles.forEach(p => p.update() && p.draw());
+    requestAnimationFrame(animate);
   }
-  anim();
+  animate();
 
   window.addEventListener('resize', () => {
     w = canvas.width = window.innerWidth;
