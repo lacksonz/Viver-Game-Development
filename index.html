@@ -15,23 +15,28 @@
 
   <!-- Main Screen -->
   <div id="main-screen">
-    <!-- Animated Background Canvas -->
+    <!-- Canvas for animated background -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Fixed Navbar -->
+    <!-- Navbar -->
     <nav class="navbar">
       <img src="New Project (34).png" alt="Logo" class="nav-logo">
       <ul class="nav-tabs">
-        <li><a href="#">Main</a></li>
-        <li><a href="#">Our VR Games</a></li>
+        <li><a href="#main">Main</a></li>
+        <li><a href="#vrgames">Our VR Games</a></li>
       </ul>
     </nav>
 
     <!-- Main Content -->
-    <div class="content">
+    <section class="content" id="main">
       <h1>Welcome to Viver Game!</h1>
       <p>Explore our VR games and experiences.</p>
-    </div>
+    </section>
+
+    <section class="content" id="vrgames">
+      <h2>Our VR Games</h2>
+      <p>Coming soon…</p>
+    </section>
   </div>
 
   <script src="script.js"></script>
