@@ -1,51 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viver Game</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viver.</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <img src="New Project (34).png" alt="Logo" class="nav-logo">
-    <ul class="nav-tabs">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#games">Our VR Games</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- SPLASH SCREEN -->
+  <div id="splash">
+    <img src="New Project (34).png" alt="Logo" class="splash-logo">
+  </div>
 
-  <!-- Hero Section -->
-  <header id="hero" class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <img src="New Project (34).png" alt="Logo" class="hero-logo">
-      <h1>Immersive VR Experiences</h1>
-      <p>Step into worlds beyond imagination</p>
+  <!-- NAVIGATION BAR -->
+  <header>
+    <div class="nav-left">
+      <img src="New Project (34).png" class="nav-logo" alt="Logo">
+      <span class="nav-title">Viver VR</span>
     </div>
+
+    <nav>
+      <a href="#">Main</a>
+      <a href="#games">Our VR Games</a>
+      <a href="#about">About</a>
+    </nav>
   </header>
 
-  <!-- Main content -->
-  <main class="main-content">
-    <section id="about" class="section">
-      <h2>About Us</h2>
-      <p>Viver Game is a VR studio creating immersive and interactive virtual reality experiences.</p>
-    </section>
+  <!-- BACKGROUND ORBS -->
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
 
-    <section id="games" class="section">
-      <h2>Our VR Games</h2>
-      <p>Discover our portfolio of VR games designed for ultimate immersion.</p>
-    </section>
-
-    <section id="contact" class="section">
-      <h2>Contact</h2>
-      <p>Get in touch for collaborations, support, or inquiries.</p>
-    </section>
-  </main>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Welcome to Viver Studio</h1>
+    <p>
+      We create immersive VR games with smooth design, polished visuals, and realistic experiences.
+    </p>
+    <button class="hero-btn">Explore Our Games</button>
+  </section>
 
   <script src="script.js"></script>
 </body>
