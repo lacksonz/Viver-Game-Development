@@ -1,937 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-wf-site="68c5a54e4bcedd5575bdd7b5">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Game - Free Multiplayer Adventure</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', sans-serif;
-            background: #000000;
-            color: #ffffff;
-            overflow-x: hidden;
-            line-height: 1.5;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 18px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            width: 140px;
-            height: 45px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: #666;
-            border: 1px dashed #444;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 400;
-            transition: opacity 0.2s;
-        }
-
-        .nav-links a:hover {
-            opacity: 0.6;
-        }
-
-        .nav-social {
-            display: flex;
-            gap: 10px;
-        }
-
-        .nav-social-icon {
-            width: 26px;
-            height: 26px;
-            background: #1a1a1a;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px dashed #444;
-        }
-
-        .nav-social-icon:hover {
-            background: #2a2a2a;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 100px 50px 50px;
-            background: #000;
-            position: relative;
-            text-align: center;
-        }
-
-        .hero-video-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, rgba(40, 40, 40, 0.3) 0%, rgba(0, 0, 0, 1) 70%);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-        }
-
-        .hero-logo-space {
-            width: 380px;
-            height: 180px;
-            margin: 0 auto 45px;
-            background: #0a0a0a;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            color: #555;
-            border: 2px dashed #333;
-        }
-
-        .hero-title {
-            font-size: 22px;
-            font-weight: 400;
-            line-height: 1.7;
-            margin-bottom: 38px;
-            color: #ffffff;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 18px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-play-free {
-            background: #ffffff;
-            color: #000000;
-            padding: 15px 42px;
-            border-radius: 100px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .btn-play-free:hover {
-            background: #e6e6e6;
-            transform: translateY(-1px);
-        }
-
-        .btn-watch-trailer {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .btn-watch-trailer:hover {
-            opacity: 0.7;
-        }
-
-        /* Ticker Animation */
-        .ticker-section {
-            background: #000;
-            padding: 22px 0;
-            overflow: hidden;
-            border-top: 1px solid #1a1a1a;
-            border-bottom: 1px solid #1a1a1a;
-        }
-
-        .ticker-track {
-            display: flex;
-            animation: ticker 35s linear infinite;
-        }
-
-        .ticker-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0 35px;
-            font-size: 16px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .ticker-diamond {
-            width: 7px;
-            height: 7px;
-            background: #ffffff;
-            transform: rotate(45deg);
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* Adventure Section */
-        .adventure-section {
-            padding: 110px 50px;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .adventure-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-
-        .adventure-text h2 {
-            font-size: 44px;
-            font-weight: 700;
-            margin-bottom: 28px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .adventure-text p {
-            font-size: 17px;
-            line-height: 1.8;
-            color: #cccccc;
-            margin-bottom: 35px;
-        }
-
-        .play-on-label {
-            font-size: 13px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 18px;
-        }
-
-        .platform-logo-box {
-            display: inline-block;
-            width: 180px;
-            height: 50px;
-            background: #0a0a0a;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: #555;
-            border: 2px dashed #333;
-            margin-bottom: 25px;
-        }
-
-        .rating-box {
-            width: 75px;
-            height: 75px;
-            background: #0a0a0a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: #555;
-            border: 2px dashed #333;
-        }
-
-        .adventure-image-box {
-            width: 100%;
-            height: 480px;
-            background: #0a0a0a;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            color: #555;
-            border: 2px dashed #333;
-        }
-
-        /* Decorative Rectangles */
-        .deco-rectangle {
-            position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 25px;
-            pointer-events: none;
-        }
-
-        .deco-rect-top {
-            width: 280px;
-            height: 380px;
-            top: -80px;
-            right: -40px;
-            transform: rotate(22deg);
-        }
-
-        .deco-rect-bottom {
-            width: 240px;
-            height: 320px;
-            bottom: -80px;
-            left: -40px;
-            transform: rotate(-18deg);
-        }
-
-        /* Feature Cards */
-        .features-section {
-            padding: 110px 50px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 35px;
-        }
-
-        .feature-card {
-            background: #000;
-            border: 1px solid #1a1a1a;
-            border-radius: 18px;
-            padding: 45px 38px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: #2a2a2a;
-            transform: translateY(-4px);
-        }
-
-        .feature-img-box {
-            width: 100%;
-            height: 240px;
-            background: #0a0a0a;
-            border-radius: 14px;
-            margin-bottom: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: #555;
-            border: 2px dashed #333;
-        }
-
-        .feature-card h3 {
-            font-size: 26px;
-            font-weight: 600;
-            margin-bottom: 18px;
-        }
-
-        .feature-card p {
-            font-size: 15px;
-            line-height: 1.75;
-            color: #aaaaaa;
-            margin-bottom: 28px;
-        }
-
-        .feature-link {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            border-bottom: 2px solid #ffffff;
-            padding-bottom: 4px;
-            transition: opacity 0.3s;
-        }
-
-        .feature-link:hover {
-            opacity: 0.7;
-        }
-
-        .social-icons-inline {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .social-icon-box {
-            width: 50px;
-            height: 50px;
-            background: #0a0a0a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: #555;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px dashed #333;
-        }
-
-        .social-icon-box:hover {
-            background: #1a1a1a;
-            transform: translateY(-2px);
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            padding: 110px 50px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .faq-section h2 {
-            font-size: 44px;
-            text-align: center;
-            margin-bottom: 75px;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid #1a1a1a;
-            padding: 28px 0;
-        }
-
-        .faq-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .faq-header h3 {
-            font-size: 18px;
-            font-weight: 500;
-            padding-right: 20px;
-        }
-
-        .faq-icon {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .faq-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-        }
-
-        .faq-content-inner {
-            padding-top: 18px;
-            color: #aaaaaa;
-            font-size: 15px;
-            line-height: 1.8;
-        }
-
-        .faq-item.open .faq-content {
-            max-height: 1000px;
-        }
-
-        .faq-item.open .faq-icon {
-            transform: rotate(180deg);
-        }
-
-        /* Footer */
-        footer {
-            background: #000;
-            border-top: 1px solid #1a1a1a;
-            padding: 70px 50px 35px;
-        }
-
-        .footer-grid {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-            gap: 55px;
-            margin-bottom: 55px;
-        }
-
-        .footer-logo-box {
-            width: 140px;
-            height: 38px;
-            background: #0a0a0a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: #555;
-            border: 1px dashed #333;
-            margin-bottom: 25px;
-        }
-
-        .footer-links {
-            margin-bottom: 22px;
-        }
-
-        .footer-links a {
-            display: inline-block;
-            color: #888;
-            text-decoration: none;
-            font-size: 13px;
-            margin-right: 18px;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: #ffffff;
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 10px;
-        }
-
-        .footer-col h4 {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 18px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-        }
-
-        .footer-col a {
-            display: block;
-            color: #888;
-            text-decoration: none;
-            margin-bottom: 11px;
-            font-size: 13px;
-            transition: color 0.2s;
-        }
-
-        .footer-col a:hover {
-            color: #ffffff;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #1a1a1a;
-            padding-top: 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #666;
-            font-size: 12px;
-        }
-
-        .footer-badges {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-        }
-
-        .footer-badge-box {
-            height: 38px;
-            width: 90px;
-            background: #0a0a0a;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #555;
-            border: 1px dashed #333;
-        }
-
-        /* Video Modal */
-        .video-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.96);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-container {
-            position: relative;
-            width: 90%;
-            max-width: 1100px;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: -45px;
-            right: 0;
-            color: #ffffff;
-            font-size: 38px;
-            cursor: pointer;
-            font-weight: 300;
-            line-height: 1;
-        }
-
-        .modal-close:hover {
-            opacity: 0.7;
-        }
-
-        .modal-video-box {
-            width: 100%;
-            height: 600px;
-            background: #0a0a0a;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #555;
-            border: 2px dashed #333;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .adventure-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-title {
-                font-size: 18px;
-            }
-
-            .adventure-text h2,
-            .faq-section h2 {
-                font-size: 32px;
-            }
-
-            .hero-section,
-            .adventure-section,
-            .features-section,
-            .faq-section,
-            footer {
-                padding-left: 25px;
-                padding-right: 25px;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animal Company VR — Free Multiplayer Adventure Game on Meta Quest</title>
+  <meta name="description" content="Dive into spooky worlds, fight epic monsters, and squad up with friends in this free-to-play Virtual Reality game. Weekly updates, new maps, and seasonal events.">
+  <link rel="shortcut icon" href="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68d4e556f311b084a6ebbd94_favicon.png" type="image/x-icon">
+  <link rel="apple-touch-icon" href="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68d4e5598b0e7d4be430895f_webclip.png">
+  <link href="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/css/animal-company-vr-on-meta-quest.webflow.shared.cc6201b09.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ["Kode Mono:regular,500,600,700","Inter:regular,500,600,700"]
+      }
+    });
+  </script>
+
+  <!-- Webflow JS for static interactivity -->
+  <script src="https://cdn.website-files.com/68c5a54e4bcedd5575bdd7b5/js/webflow.js" type="text/javascript"></script>
+
+  <!-- Finsweet Attributes (optional, needed for dynamic lists if you keep them) -->
+  <script async type="module" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js" fs-list=""></script>
+
+  <style>
+    body, html { overflow-x: hidden; }
+    body { overflow-y: hidden; }
+    .w-nav-link.w--current { background-color: var(--white); color: var(--black); }
+    .faq-text p:first-child { padding-top: 8px; }
+    #copyright-year { position: relative; }
+    #copyright-year:before {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-image: url('https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c924f38e5cd5835446acbc_copyright.svg');
+      left: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    @media(min-width: 991px){
+      .triangle-nav-menu { display: none !important; }
+    }
+  </style>
+
+  <!-- Structured FAQ JSON-LD -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Animal Company safe for children?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Animal Company is rated ESRB Teen (13+)..."
+          }
+        }
+        // You can add the rest of the FAQ items here
+      ]
+    }
+  </script>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="nav-logo">YOUR LOGO</div>
-            
-            <ul class="nav-links">
-                <li><a href="#about">about</a></li>
-                <li><a href="#shop">shop</a></li>
-                <li><a href="#support">support</a></li>
-                <li><a href="#games-fund">games fund</a></li>
-            </ul>
+<body class="body">
 
-            <div class="nav-social">
-                <div class="nav-social-icon">D</div>
-                <div class="nav-social-icon">TT</div>
-                <div class="nav-social-icon">YT</div>
-                <div class="nav-social-icon">X</div>
-            </div>
+  <!-- NAVIGATION -->
+  <section class="section nav-section">
+    <div class="triangle-nav w-nav">
+      <div class="container div-block-2">
+        <a href="/" class="w-inline-block w--current">
+          <img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8a139ee875a9e3060d421_Logo.svg" alt="Animal Company logo">
+        </a>
+        <div class="div-block-4">
+          <div class="div-block-3">
+            <!-- Social Links -->
+            <a href="https://discord.com/invite/animalcompany" target="_blank"><img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d2519acdcf470123af53_discord-logo.svg" alt="Discord"></a>
+            <a href="https://www.tiktok.com/@animalcompanyvr" target="_blank"><img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d2516a76eafd63c715fc_tiktok.svg" alt="TikTok"></a>
+            <a href="https://www.youtube.com/@AnimalCompanyVR" target="_blank"><img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d2511866b0f38ff9582f_youtube.svg" alt="YouTube"></a>
+            <a href="https://x.com/AnimalCompanyVR" target="_blank"><img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d251834d882b754437c0_prime_twitter.svg" alt="X"></a>
+          </div>
+          <!-- Main Nav Buttons -->
+          <div class="div-block-5">
+            <a href="/about" class="main-btn w-button">about</a>
+            <a href="https://shop.animalcompanyvr.com/" target="_blank" class="main-btn w-button">shop</a>
+            <a href="https://support.animalcompanyvr.com/support/home" target="_blank" class="main-btn w-button">support</a>
+            <a href="/games-fund" class="main-btn w-button">games fund</a>
+          </div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-video-bg">
-            <!-- Add video background: <video autoplay muted loop><source src="video.mp4"></video> -->
-        </div>
-        <div class="hero-content">
-            <div class="hero-logo-space">MAIN LOGO / ANIMATION</div>
-            <p class="hero-title">Enter the chaotic and fun world of Your Game, where survival meets pure chaos in this multiplayer adventure.</p>
-            <div class="hero-buttons">
-                <a href="#" class="btn-play-free">play free</a>
-                <a href="#" class="btn-watch-trailer" onclick="openVideoModal()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                        <path d="M10 8l6 4-6 4V8z" fill="currentColor"/>
-                    </svg>
-                    watch trailer
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Ticker -->
-    <div class="ticker-section">
-        <div class="ticker-track">
-            <div class="ticker-item"><span class="ticker-diamond"></span>Your Game</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>ADventure</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Create Content</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Shape the Game</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Your Game</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>ADventure</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Create Content</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Shape the Game</div>
-        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Adventure Section -->
-    <section class="adventure-section">
-        <div class="deco-rectangle deco-rect-top"></div>
-        <div class="adventure-grid">
-            <div class="adventure-text">
-                <h2>ADventure & Social Chaos</h2>
-                <p>Explore spooky worlds, survive epic monster battles, and team up with friends in this <strong>free multiplayer game</strong>. With <strong>weekly updates</strong> bringing new maps, challenges and rewards, there's always fresh content to play, stream, and share.</p>
-                
-                <div class="play-on-label">play free on</div>
-                <div class="platform-logo-box">Platform Logo</div>
-                
-                <div class="rating-box">Rating</div>
-            </div>
-            <div class="adventure-image-box">CHARACTER IMAGE<br>500x480px</div>
-        </div>
-        <div class="deco-rectangle deco-rect-bottom"></div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-img-box">IMAGE SPACE<br>600x240px</div>
-                <h3>Create Content</h3>
-                <p>Apply to our Content Creator Program to get sneak peeks, tools, and support from devs to help you create videos. Many creators have grown their channel from 0 to 100K subs in 3 months!</p>
-                <a href="#" class="feature-link">Apply now</a>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-img-box">IMAGE SPACE<br>600x240px</div>
-                <h3>Shape the Game</h3>
-                <p>Join our community on Discord to get the latest game updates and events. Here you can meet friends, share ideas, and collaborate with other creators. Our developers are actively engaging with player feedback.</p>
-                <a href="#" class="feature-link">join discord</a>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-img-box">IMAGE SPACE<br>600x240px</div>
-                <h3>Connect with us</h3>
-                <p>Subscribe to our social media channels to get the latest news, or email if you're looking to partner with us.</p>
-                <div class="social-icons-inline">
-                    <div class="social-icon-box">YT</div>
-                    <div class="social-icon-box">TT</div>
-                    <div class="social-icon-box">X</div>
-                    <div class="social-icon-box">✉</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq-section" id="faq">
-        <h2>FAQ</h2>
-        
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>Is Your Game safe for children?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>Your Game is rated Teen (13+), meaning it's designed for teenagers and does not include graphic violence, sexual content, or harmful material. The game focuses on adventures, social play, and creativity, making it a safe and fun environment for young players. To keep the community positive, we've built a layered moderation system.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>How can I install Your Game?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>You can install Your Game by searching for it from your platform's store or download directly from our website.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>Which platforms should I use to play?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>Your Game is currently available on PC, Mac, and select gaming platforms.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>Is Your Game a free-to-play game?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>Yes, Your Game is completely free to play. Download and play for free.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>Do I need a powerful PC?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>No powerful PC required! The game is optimized to run on a wide range of systems.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>How do I record gameplay?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>Most platforms have built-in recording features. Check our YouTube channel for tutorials on how to record and share your best moments.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>Can I play with friends online?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>Yes! Your Game is more fun with friends and you can always find new friends in the game or on our Discord server.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>Does Your Game get regular updates?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>Your Game releases new updates regularly! You can find new announcements on our Discord server or check videos on our YouTube channel.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-header" onclick="toggleFAQ(this)">
-                <h3>Can I customize my character?</h3>
-                <div class="faq-icon">↓</div>
-            </div>
-            <div class="faq-content">
-                <div class="faq-content-inner">
-                    <p>Yes! Character customization is one of the major reasons why our players love Your Game.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Ticker -->
-    <div class="ticker-section">
-        <div class="ticker-track">
-            <div class="ticker-item"><span class="ticker-diamond"></span>Your Game</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>ADventure</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Create Content</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Shape the Game</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Your Game</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>ADventure</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Create Content</div>
-            <div class="ticker-item"><span class="ticker-diamond"></span>Shape the Game</div>
-        </div>
+  <!-- HERO SECTION -->
+  <section class="section hero-section">
+    <div class="background-video w-background-video w-background-video-atom">
+      <video autoplay loop muted playsinline style="object-fit: cover;">
+        <source src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68d642ec05e70bc8626d0621_Animal%20Company%20Trailer%20-%20Animal%20Company%20%281080p%2C%20h264%29%20%281%29-transcode.mp4">
+        <source src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68d642ec05e70bc8626d0621_Animal%20Company%20Trailer%20-%20Animal%20Company%20%281080p%2C%20h264%29%20%281%29-transcode.webm">
+      </video>
+      <div class="overlay"></div>
     </div>
+    <h1>ADventure & Social Chaos</h1>
+    <p>Explore spooky worlds, survive epic monster battles, and team up with friends in this free multiplayer VR game.</p>
+    <a href="https://www.meta.com/experiences/animal-company/7190422614401072/" target="_blank" class="main-btn w-button">play free</a>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-            <div>
-                <div class="footer-logo-box">LOGO</div>
-                <div class="footer-links">
-                    <a href="#">PRESS KIT</a>
-                    <a href="#">Discord</a>
-                    <a href="#">Youtube</a>
-                    <a href="#">Tiktok</a>
-                </div>
-                <div class="footer-social">
-                    <div class="nav-social-icon">D</div>
-                    <div class="nav-social-icon">YT</div>
-                    <div class="nav-social-icon">TT</div>
-                    <div class="nav-social-icon">X</div>
-                </div>
-            </div>
+  <!-- FAQ SECTION -->
+  <section id="faq" class="section faq-section">
+    <h2>FAQ</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-title-wrapper">
+          <h3>Is Animal Company safe for children?</h3>
+          <img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c90a7d8cf0554bdb3a851b_faq-arrow-2.svg" alt="Arrow">
+        </div>
+        <div class="faq-text">
+          <p>Animal Company is rated ESRB Teen (13+)...</p>
+        </div>
+      </div>
+      <!-- Add remaining FAQ items here -->
+    </div>
+  </section>
 
-            <div class="footer
+  <!-- Include Popups, Videos, Social Links, etc. like before -->
+</body>
+</html>
