@@ -1,91 +1,332 @@
 <!DOCTYPE html>
-<html lang="en" data-wf-site="68c5a54e4bcedd5575bdd7b5" data-wf-page="68c5a54f4bcedd5575bdd7bb">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Animal Company VR — Free Multiplayer Adventure Game on Meta Quest</title>
-  <meta name="description" content="Dive into spooky worlds, fight epic monsters, and squad up with friends in this free-to-play Virtual Reality game.">
-
-  <!-- Webflow CSS -->
-  <link href="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/css/animal-company-vr-on-meta-quest.webflow.shared.cc6201b09.min.css" rel="stylesheet" type="text/css">
-
-  <!-- Google Fonts -->
-  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
-  <script>
-    WebFont.load({
-      google: { families: ["Kode Mono:regular,500,600,700","Inter:regular,500,600,700"] }
-    });
-  </script>
-
-  <style>
-    body, html { margin:0; padding:0; overflow-x:hidden; }
-    body { overflow-y:auto; }
-    .w-nav-link.w--current { background-color: #fff; color: #000; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Company VR — Free Multiplayer Adventure Game on Meta Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --white: #fff; --black: #000; --primary: #FF6B35; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: var(--white); overflow-x: hidden; line-height: 1.6; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        
+        /* Nav */
+        .nav-section { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); padding: 1rem 0; opacity: 0; animation: fadeInDown 0.8s ease forwards; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo img { height: 50px; transition: transform 0.3s; }
+        .logo:hover img { transform: scale(1.05); }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .social-links { display: flex; gap: 1rem; }
+        .social-link { width: 32px; height: 32px; transition: transform 0.3s; }
+        .social-link:hover { transform: translateY(-3px); }
+        .nav-btns { display: flex; gap: 1rem; }
+        .btn { padding: 0.75rem 1.5rem; background: var(--white); color: var(--black); text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s; text-transform: uppercase; font-size: 0.9rem; border: 2px solid var(--white); display: inline-block; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
+        .btn.white-btn { background: transparent; color: var(--white); display: inline-flex; align-items: center; gap: 0.5rem; }
+        
+        /* Hero */
+        .hero { position: relative; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: hidden; background: linear-gradient(135deg, #1a0a2a 0%, #0a0a0a 100%); }
+        .hero-bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7)); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 2rem; }
+        .hero-logo { width: 100%; max-width: 600px; margin-bottom: 2rem; opacity: 0; animation: fadeInScale 1s ease 0.3s forwards; }
+        .hero-desc { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0; animation: fadeInUp 0.8s ease 0.6s forwards; }
+        .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .hero-btns .btn { opacity: 0; animation: fadeInUp 0.8s ease forwards; }
+        .hero-btns .btn:nth-child(1) { animation-delay: 0.9s; }
+        .hero-btns .btn:nth-child(2) { animation-delay: 1.1s; }
+        
+        /* Sections */
+        .section { padding: 5rem 0; position: relative; }
+        .section-title { font-family: 'Kode Mono', monospace; font-size: 3rem; margin-bottom: 2rem; text-transform: uppercase; opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .section-title.visible { opacity: 1; transform: translateY(0); }
+        .section-text { font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; opacity: 0; transform: translateY(30px); transition: all 0.8s ease 0.2s; }
+        .section-text.visible { opacity: 1; transform: translateY(0); }
+        
+        .adventure-section { background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); }
+        .adventure-content { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        .meta-info { display: flex; align-items: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; opacity: 0; transform: translateY(30px); transition: all 0.8s ease 0.4s; }
+        .meta-info.visible { opacity: 1; transform: translateY(0); }
+        .meta-info img { max-height: 50px; }
+        
+        /* Video Grid */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .video-item { position: relative; padding-top: 56.25%; background: #1a1a1a; border-radius: 12px; overflow: hidden; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .video-item.visible { opacity: 1; transform: translateY(0); }
+        .video-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        /* Create/Shape */
+        .create-content, .shape-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .create-image, .shape-image { width: 100%; max-width: 600px; opacity: 0; transition: all 0.8s ease; }
+        .create-image { transform: translateX(-50px); }
+        .shape-image { transform: translateX(50px); border-radius: 20px; }
+        .create-image.visible { opacity: 1; transform: translateX(0); }
+        .shape-image.visible { opacity: 1; transform: translateX(0); }
+        .shape-game { background: linear-gradient(135deg, #2a1a3a 0%, #1a0a2a 100%); }
+        
+        /* Connect */
+        .connect-section { text-align: center; }
+        .connect-socials { display: flex; justify-content: center; gap: 2rem; margin-top: 3rem; flex-wrap: wrap; }
+        .social-icon { width: 60px; height: 60px; transition: transform 0.3s; }
+        .social-icon:hover { transform: scale(1.2) rotate(5deg); }
+        
+        /* FAQ */
+        .faq-section { background: #0a0a0a; }
+        .faq-list { max-width: 900px; margin: 0 auto; }
+        .faq-item { background: #1a1a1a; border-radius: 12px; margin-bottom: 1rem; overflow: hidden; opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .faq-item.visible { opacity: 1; transform: translateY(0); }
+        .faq-title-wrapper { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
+        .faq-title-wrapper:hover { background: #222; }
+        .faq-title { font-size: 1.1rem; font-weight: 600; }
+        .faq-icon { width: 24px; height: 24px; transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+        .faq-item.active .faq-content { max-height: 1000px; padding: 0 1.5rem 1.5rem; }
+        .faq-content p { margin-bottom: 1rem; }
+        
+        /* Marquee */
+        .marquee { background: var(--primary); padding: 2rem 0; overflow: hidden; }
+        .marquee-content { display: flex; animation: marquee 30s linear infinite; white-space: nowrap; }
+        .marquee-item { display: flex; align-items: center; gap: 2rem; padding: 0 2rem; }
+        .marquee-text { font-family: 'Kode Mono', monospace; font-size: 2.5rem; font-weight: 700; }
+        
+        /* Footer */
+        footer { background: #0a0a0a; padding: 3rem 0 2rem; border-top: 1px solid #222; }
+        .footer-content { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; margin-bottom: 2rem; }
+        .footer-logo img { height: 60px; }
+        .footer-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem; }
+        .footer-menu a { color: var(--white); text-decoration: none; padding: 0.5rem 0; display: block; transition: color 0.3s; font-size: 0.9rem; }
+        .footer-menu a:hover { color: var(--primary); }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid #222; font-size: 0.9rem; flex-wrap: wrap; gap: 1rem; }
+        .footer-platforms { display: flex; align-items: center; gap: 1rem; }
+        .footer-platforms img { max-height: 50px; }
+        
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .create-content, .shape-content, .footer-content { grid-template-columns: 1fr; }
+            .section-title { font-size: 2rem; }
+            .hero-desc { font-size: 1rem; }
+            .nav-btns { display: none; }
+            .video-grid { grid-template-columns: 1fr; }
+            .shape-content { grid-template-columns: 1fr; }
+            .shape-content > div:first-child { order: 2; }
+            .shape-image { order: 1; }
+        }
+    </style>
 </head>
+<body>
+    <nav class="nav-section">
+        <div class="container">
+            <div class="nav-content">
+                <a href="/" class="logo">
+                    <img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8a139ee875a9e3060d421_Logo.svg" alt="Animal Company">
+                </a>
+                <div class="nav-links">
+                    <div class="social-links">
+                        <a href="https://discord.com/invite/animalcompany" target="_blank"><img class="social-link" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d2519acdcf470123af53_discord-logo.svg" alt="Discord"></a>
+                        <a href="https://www.tiktok.com/@animalcompanyvr" target="_blank"><img class="social-link" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d2516a76eafd63c715fc_tiktok.svg" alt="TikTok"></a>
+                        <a href="https://www.youtube.com/@AnimalCompanyVR" target="_blank"><img class="social-link" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d2511866b0f38ff9582f_youtube.svg" alt="YouTube"></a>
+                        <a href="https://x.com/AnimalCompanyVR" target="_blank"><img class="social-link" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d251834d882b754437c0_prime_twitter.svg" alt="X"></a>
+                    </div>
+                    <div class="nav-btns">
+                        <a href="/about" class="btn">About</a>
+                        <a href="https://shop.animalcompanyvr.com/" target="_blank" class="btn">Shop</a>
+                        <a href="https://support.animalcompanyvr.com/support/home" target="_blank" class="btn">Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-<body class="body">
-  <!-- Navigation -->
-  <section class="nav-section w-nav">
-    <div class="container">
-      <a href="/" class="w-inline-block w--current">
-        <img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8a139ee875a9e3060d421_Logo.svg" alt="Animal Company logo">
-      </a>
-      <div class="nav-links">
-        <a href="/about" class="main-btn w-button">About</a>
-        <a href="https://shop.animalcompanyvr.com/" class="main-btn w-button" target="_blank">Shop</a>
-        <a href="https://support.animalcompanyvr.com/support/home" class="main-btn w-button" target="_blank">Support</a>
-        <a href="/games-fund" class="main-btn w-button">Games Fund</a>
-      </div>
+    <section class="hero">
+        <video class="hero-bg-video" autoplay muted loop playsinline>
+            <source src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5%2F68d642ec05e70bc8626d0621_Animal%20Company%20Trailer%20-%20Animal%20Company%20%281080p%2C%20h264%29%20%281%29-transcode.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <img class="hero-logo" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8a139ee875a9e3060d421_Logo.svg" alt="Animal Company">
+            <p class="hero-desc">Enter the chaotic and fun world of Animal Company, where survival meets pure chaos in this multiplayer VR adventure.</p>
+            <div class="hero-btns">
+                <a href="https://www.meta.com/experiences/animal-company/7190422614401072/" target="_blank" class="btn">Play Free</a>
+                <a href="#" class="btn white-btn"><img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68d63a69b05ba33a32022428_play_circle_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24%201.svg" alt="Play" style="width:20px"> Watch Trailer</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section adventure-section">
+        <div class="container">
+            <div class="adventure-content">
+                <div>
+                    <h2 class="section-title">Adventure & Social Chaos</h2>
+                    <p class="section-text">Explore spooky worlds, survive epic monster battles, and team up with friends in this <strong>free multiplayer Virtual Reality game</strong>. With <strong>weekly updates</strong> bringing new maps, challenges and rewards, there's always fresh content to play, stream, and share.</p>
+                    <div class="meta-info">
+                        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                            <p style="font-size:0.9rem;">Play free on</p>
+                            <a href="https://meta.com/experiences/7190422614401072" target="_blank"><img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c9f158749a67a3750c0b1a_meta-quest-2.avif" alt="Meta Quest"></a>
+                        </div>
+                        <img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d6b01ec5219e06656504_T-mark.avif" alt="Teen Rating">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="video-grid">
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/RehphKPqJ1U" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/fLHJm6qtu6E" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/4lnCbZmPwkY" allowfullscreen></iframe></div>
+                <div class="video-item"><iframe src="https://www.youtube.com/embed/cGaAKGE0rs4" allowfullscreen></iframe></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="create-content">
+                <img class="create-image" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8deba6084a6d77920fea2_Render_MonkeyYellow%201.avif" alt="Monkey">
+                <div>
+                    <h2 class="section-title">Create Content</h2>
+                    <p class="section-text">Apply to our Drip Department Content Creator Program to get sneak peeks, tools, and support from Animal Company devs to help you create videos. Many creators have grown their channel from 0 to 100K subs in 3 months with just AC videos!</p>
+                    <a href="https://docs.google.com/document/d/1OprmlmYhR-NRL2wd8pto5soO83S_fdV8VW98wt_BXx8/edit?usp=sharing" target="_blank" class="btn">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section shape-game">
+        <div class="container">
+            <div class="shape-content">
+                <div>
+                    <h2 class="section-title">Shape the Game</h2>
+                    <p class="section-text">Join our community on Discord to get the latest game updates and events inside Animal Company. Here you can meet friends, share ideas, and collaborate with other creators. Our developers are actively engaging with player feedback to improve the game on a weekly basis.</p>
+                    <a href="https://discord.com/invite/animalcompany" target="_blank" class="btn">Join Discord</a>
+                </div>
+                <img class="shape-image" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8deba9a68ffee8dc350e2_DogSquare.avif" alt="Dog">
+            </div>
+        </div>
+    </section>
+
+    <section class="section connect-section">
+        <div class="container">
+            <h2 class="section-title">Connect with us</h2>
+            <p class="section-text">Subscribe to our social media channels to get the latest news, or email if you're looking to partner with us.</p>
+            <div class="connect-socials">
+                <a href="https://www.youtube.com/@AnimalCompanyVR" target="_blank"><img class="social-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d2511866b0f38ff9582f_youtube.svg" alt="YouTube"></a>
+                <a href="https://www.tiktok.com/@animalcompanyvr" target="_blank"><img class="social-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d2516a76eafd63c715fc_tiktok.svg" alt="TikTok"></a>
+                <a href="https://x.com/AnimalCompanyVR" target="_blank"><img class="social-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d251834d882b754437c0_prime_twitter.svg" alt="X"></a>
+                <a href="mailto:tera@animalcompanyvr.com"><img class="social-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8e9dd34755704ad7338d1_mail-icon.svg" alt="Email"></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section faq-section" id="faq">
+        <div class="container">
+            <h2 class="section-title" style="text-align:center;">FAQ</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-title-wrapper">
+                        <h3 class="faq-title">Is Animal Company safe for children?</h3>
+                        <img class="faq-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c90a7d8cf0554bdb3a851b_faq-arrow-2.svg" alt="Arrow">
+                    </div>
+                    <div class="faq-content"><p>Animal Company is rated ESRB Teen (13+), meaning it's designed for teenagers and does not include graphic violence, sexual content, or harmful material. The game focuses on spooky adventures, social play, and creativity, making it a safe and fun environment for young players.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title-wrapper">
+                        <h3 class="faq-title">Is Animal Company a free-to-play VR game?</h3>
+                        <img class="faq-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c90a7d8cf0554bdb3a851b_faq-arrow-2.svg" alt="Arrow">
+                    </div>
+                    <div class="faq-content"><p>Yes, Animal Company is a free VR game. Download and play for free.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title-wrapper">
+                        <h3 class="faq-title">Which VR headset should I buy to play?</h3>
+                        <img class="faq-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c90a7d8cf0554bdb3a851b_faq-arrow-2.svg" alt="Arrow">
+                    </div>
+                    <div class="faq-content"><p>Animal Company is currently available on Meta Quest 2, Meta Quest 3S, Meta Quest 3, and Meta Quest Pro.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title-wrapper">
+                        <h3 class="faq-title">Can I play with friends online?</h3>
+                        <img class="faq-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c90a7d8cf0554bdb3a851b_faq-arrow-2.svg" alt="Arrow">
+                    </div>
+                    <div class="faq-content"><p>Yes! Animal Company is more fun with friends and you can always find new friends in the game or on our Discord server.</p></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-title-wrapper">
+                        <h3 class="faq-title">Does Animal Company get regular updates?</h3>
+                        <img class="faq-icon" src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c90a7d8cf0554bdb3a851b_faq-arrow-2.svg" alt="Arrow">
+                    </div>
+                    <div class="faq-content"><p>Animal Company releases new game updates every Tuesday! You can find new announcements on our Discord server or check our videos on our YouTube channel.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee">
+        <div class="marquee-content">
+            <div class="marquee-item"><span class="marquee-text">Animal Company</span><span>◆</span><span class="marquee-text">Adventure</span><span>◆</span><span class="marquee-text">Create Content</span><span>◆</span><span class="marquee-text">Shape the Game</span><span>◆</span></div>
+            <div class="marquee-item"><span class="marquee-text">Animal Company</span><span>◆</span><span class="marquee-text">Adventure</span><span>◆</span><span class="marquee-text">Create Content</span><span>◆</span><span class="marquee-text">Shape the Game</span><span>◆</span></div>
+        </div>
     </div>
-  </section>
 
-  <!-- Hero Video Section -->
-  <section class="hero-section">
-    <video autoplay loop muted playsinline style="width:100%; height:auto; object-fit:cover;">
-      <source src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68d642ec05e70bc8626d0621_Animal%20Company%20Trailer%20-%20Animal%20Company%20%281080p%2C%20h264%29%20%281%29-transcode.mp4" type="video/mp4">
-      <source src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68d642ec05e70bc8626d0621_Animal%20Company%20Trailer%20-%20Animal%20Company%20%281080p%2C%20h264%29%20%281%29-transcode.webm" type="video/webm">
-      Your browser does not support the video tag.
-    </video>
-    <div class="hero-content">
-      <h1>Enter the chaotic world of Animal Company VR</h1>
-      <a href="https://www.meta.com/experiences/animal-company/7190422614401072/" class="main-btn w-button" target="_blank">Play Free</a>
-    </div>
-  </section>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/"><img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8a139ee875a9e3060d421_Logo.svg" alt="Animal Company"></a>
+                </div>
+                <div class="footer-menu">
+                    <a href="https://www.figma.com/design/ikbsr1mkU1My3q43AKQBDC/Asset-Kit---Animal-Company" target="_blank">PRESS KIT</a>
+                    <a href="/code-of-conduct">Code of Conduct</a>
+                    <a href="https://discord.com/invite/animalcompany" target="_blank">Discord</a>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="https://www.youtube.com/@AnimalCompanyVR" target="_blank">Youtube</a>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                    <a href="https://www.tiktok.com/@animalcompanyvr" target="_blank">Tiktok</a>
+                    <a href="/fan-content-policy">Fan Content Policy</a>
+                    <a href="https://www.meta.com/experiences/animal-company/7190422614401072/" target="_blank">Play On Meta Quest</a>
+                    <a href="https://docs.google.com/document/d/1OprmlmYhR-NRL2wd8pto5soO83S_fdV8VW98wt_BXx8/edit" target="_blank">Creator Program</a>
+                    <a href="https://apps.apple.com/us/app/animal-company-companion/id6741173617" target="_blank">Mobile Companion App</a>
+                    <a href="https://support.animalcompanyvr.com/support/tickets/new" target="_blank">Support</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div style="font-size:0.85rem;">© <span id="year"></span> Wooster Games, LLC. "Animal Company" and Animal Company characters are trademarks of Wooster Games, LLC</div>
+                <div class="footer-platforms">
+                    <a href="https://www.meta.com/experiences/animal-company/7190422614401072/" target="_blank"><img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c9f158749a67a3750c0b1a_meta-quest-2.avif" alt="Meta Quest"></a>
+                    <img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d6b01ec5219e06656504_T-mark.avif" alt="Teen">
+                </div>
+            </div>
+        </div>
+    </footer>
 
-  <!-- Adventure Section -->
-  <section class="section adventure-container">
-    <div>
-      <h2>Adventure & Social Chaos</h2>
-      <p>Explore spooky worlds, survive epic monster battles, and team up with friends in this free multiplayer Virtual Reality game. Weekly updates bring new maps, challenges, and rewards.</p>
-      <a href="https://meta.com/experiences/7190422614401072" class="main-btn w-button" target="_blank">Play Free on Meta Quest</a>
-    </div>
-    <img src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/68c8d6b01ec5219e06656504_T-mark.avif" alt="Violence Blood Mark" />
-  </section>
-
-  <!-- FAQ Section -->
-  <section id="faq" class="faq-section">
-    <h2>FAQ</h2>
-    <div class="faq-item">
-      <h3>Is Animal Company safe for children?</h3>
-      <p>Rated ESRB Teen (13+), focusing on safe spooky adventures and social play. Features built-in moderation and private rooms.</p>
-    </div>
-    <div class="faq-item">
-      <h3>Which VR headset should I buy?</h3>
-      <p>Available on Meta Quest 2, 3, 3S, and Pro.</p>
-    </div>
-  </section>
-
-  <!-- Footer Section -->
-  <section class="footer-section">
-    <p>&copy; <span id="copyright-year"></span> Animal Company</p>
-  </section>
-
-  <!-- Webflow JS for interactions -->
-  <script src="https://cdn.prod.website-files.com/68c5a54e4bcedd5575bdd7b5/js/webflow.js"></script>
-  <script>
-    // Update copyright year dynamically
-    document.getElementById('copyright-year').innerText = new Date().getFullYear();
-  </script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.section-title, .section-text, .video-item, .faq-item, .create-image, .shape-image, .meta-info').forEach(el => observer.observe(el));
+        
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.querySelector('.faq-title-wrapper').addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>
